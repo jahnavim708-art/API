@@ -36,7 +36,7 @@ def get_age():
 
     if row:
         return jsonify({
-            "name": name,
+            
             "age": row[0]
         })
     else:

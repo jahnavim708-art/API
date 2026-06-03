@@ -1,0 +1,9 @@
+from .auth_router import router as auth_router
+from .user_router import router as user_router
+from .course_router import router as course_router
+from .module_router import router as module_router
+from .lesson_router import router as lesson_router
+from .enrollment_router import router as enrollment_router
+from .assignment_router import router as assignment_router
+from .audit_log_router import router as audit_log_router
+from .dashboard_router import router as dashboard_router
