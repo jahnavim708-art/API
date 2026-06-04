@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 
 DATABASE_URL = (
-    "mssql+pyodbc://localhost\\SQLEXPRESS/employee"
+    "mssql+pyodbc://localhost\\SQLEXPRESS/users"
     "?driver=ODBC+Driver+17+for+SQL+Server"
     "&trusted_connection=yes"
 )
