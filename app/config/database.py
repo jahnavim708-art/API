@@ -1,33 +1,17 @@
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
 
-from app.config.settings import (
-    DB_SERVER,
-    DB_DATABASE,
-    DB_USERNAME,
-    DB_PASSWORD
-)
+from connection import get_db_connection
 
-DATABASE_URL = (
-    f"mssql+pyodbc://{DB_USERNAME}:{DB_PASSWORD}"
-    f"@{DB_SERVER}/{DB_DATABASE}"
-    "?driver=ODBC+Driver+17+for+SQL+Server"
-)
+Base = declarative_base()
 
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True
-)
+engine = get_db_connection()
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
 )
-
-Base = declarative_base()
-
 
 def get_db():
     db = SessionLocal()
