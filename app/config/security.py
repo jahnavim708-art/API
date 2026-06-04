@@ -3,7 +3,7 @@ from typing import Optional
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-
+from app.config.settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTE
 
 # =========================
 # Password Hashing
@@ -39,58 +39,20 @@ def verify_password(
 # JWT Configuration
 # =========================
 
-SECRET_KEY = "your_super_secret_key_change_this"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
-
-def create_access_token(
-    data: dict,
-    expires_delta: Optional[timedelta] = None
-):
-    """
-    Generate JWT token.
-    """
-
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
 
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(
-            minutes=ACCESS_TOKEN_EXPIRE_MINUTES
-        )
-
-    to_encode.update(
-        {
-            "exp": expire
-        }
+    expire = datetime.utcnow() + (
+        expires_delta if expires_delta
+        else timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
     )
 
-    encoded_jwt = jwt.encode(
-        to_encode,
-        SECRET_KEY,
-        algorithm=ALGORITHM
-    )
+    to_encode.update({"exp": expire})
 
-    return encoded_jwt
-
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def decode_access_token(token: str):
-    """
-    Decode JWT token.
-    """
-
     try:
-
-        payload = jwt.decode(
-            token,
-            SECRET_KEY,
-            algorithms=[ALGORITHM]
-        )
-
-        return payload
-
-    except JWTError:
-
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except Exception:
         return None
