@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter
 from fastapi import Depends
 
@@ -12,14 +13,14 @@ router = APIRouter(
 )
 
 
-@router.get("/get_courses")
+@router.post("/get_courses")
 def get_courses(
     db: Session = Depends(get_db)
 ):
     return CourseService.get_all_courses(db)
 
 
-@router.get("/{course_id}")
+@router.post("/{course_id}")
 def get_course(
     course_id: int,
     db: Session = Depends(get_db)
