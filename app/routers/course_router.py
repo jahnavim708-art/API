@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get("/get_courses")
 def get_courses(
     db: Session = Depends(get_db)
 ):

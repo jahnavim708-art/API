@@ -11,8 +11,29 @@ router = APIRouter(
     prefix="/auth",
     tags=["Authentication"]
 )
+from app.schemas.auth import (
+    RegisterRequest,
+    LoginRequest,
+    TokenResponse
+)
+    
+@router.post("/register")
+def register(
+    request: RegisterRequest,
+    db: Session = Depends(get_db)
+):
 
+    user = AuthService.register(
+        db,
+        request
+    )
 
+    return {
+        "message": "User registered successfully",
+        "user_id": user.user_id,
+        "username": user.username,
+        "email": user.email
+    }
 @router.post("/login", response_model=TokenResponse)
 def login(
     request: LoginRequest,

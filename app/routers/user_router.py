@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Request
 from fastapi import Depends
 
 from sqlalchemy.orm import Session
@@ -11,6 +11,10 @@ router = APIRouter(
     tags=["Users"]
 )
 
+@router.get("/me")
+def me(request: Request):
+    return request.state.user
+
 
 @router.get("/")
 def get_users(
@@ -19,12 +23,12 @@ def get_users(
     return UserService.get_all_users(db)
 
 
-@router.get("/{user_id}")
+@router.get("/{id}")
 def get_user(
-    user_id: int,
+    id: int,
     db: Session = Depends(get_db)
 ):
     return UserService.get_user_by_id(
         db,
-        user_id
+        id
     )
