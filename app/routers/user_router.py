@@ -23,12 +23,12 @@ def get_users(
     return UserService.get_all_users(db)
 
 
-@router.get("/{id}")
+@router.get("/{user_id}")
 def get_user(
-    id: int,
+    user_id: int,
     db: Session = Depends(get_db)
 ):
     return UserService.get_user_by_id(
         db,
-        id
+        user_id
     )

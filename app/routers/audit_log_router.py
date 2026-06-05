@@ -15,7 +15,7 @@ router = APIRouter(
 )
 
 
-@router.get("/login")
+@router.get("/")
 def get_logs(
     db: Session = Depends(get_db)
 ):
