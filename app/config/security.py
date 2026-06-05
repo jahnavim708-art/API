@@ -3,22 +3,23 @@ from typing import Optional
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from app.config.settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTE
+from app.config.settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 # =========================
 # Password Hashing
 # =========================
 
 pwd_context = CryptContext(
-    schemes=["bcrypt"],
+    schemes=["pbkdf2_sha256"],
     deprecated="auto"
 )
-
+print("ACTIVE SCHEMES:", pwd_context.schemes())
 
 def hash_password(password: str) -> str:
     """
     Convert plain password to hashed password.
     """
+    print("HASHING WITH:", pwd_context.schemes())
     return pwd_context.hash(password)
 
 
@@ -44,7 +45,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
     expire = datetime.utcnow() + (
         expires_delta if expires_delta
-        else timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
+        else timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     )
 
     to_encode.update({"exp": expire})
