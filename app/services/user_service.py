@@ -2,6 +2,8 @@ from app.repositories.user_repository import UserRepository
 from app.config.security import hash_password
 from app.models.user import User
 
+from app.exceptions.custom_exceptions import UserAlreadyExistsException
+
 
 class UserService:
 
@@ -22,7 +24,8 @@ class UserService:
         )
 
         if existing:
-            raise Exception("User already exists")
+            raise UserAlreadyExistsException()
+
 
         user = User(
             username=user_data.username,
