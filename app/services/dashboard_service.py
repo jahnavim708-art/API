@@ -10,8 +10,8 @@ class DashboardService:
     def get_stats(db):
 
         return {
-            "total_users": db.query(UserRepository.get_all(db).__class__).count(),
-            "total_courses": db.query(CourseRepository.get_all(db).__class__).count(),
-            "total_enrollments": db.query(EnrollmentRepository.get_all(db).__class__).count(),
-            "total_assignments": db.query(AssignmentRepository.get_all(db).__class__).count()
+            "total_users": len(UserRepository.get_all(db)),
+            "total_courses": len(CourseRepository.get_all(db)),
+            "total_enrollments": len(EnrollmentRepository.get_all(db)),
+            "total_assignments": len(AssignmentRepository.get_all(db))
         }
