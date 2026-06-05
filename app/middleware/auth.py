@@ -26,7 +26,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
         print("REQUEST PATH =", path)
 
-        # Skip auth for public endpoints
+        
         if path in public_paths or path.startswith("/static"):
             return await call_next(request)
 
