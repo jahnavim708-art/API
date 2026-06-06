@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-
+from testing.schema import RegisterRequest
 from testing.database import SessionLocal
 from testing.models import User
 app = FastAPI()
@@ -21,16 +21,16 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+        
 @app.post("/register")
 def register(
-    username: str,
-    email: str,
-    password: str,
+    data: RegisterRequest,
     db: Session = Depends(get_db)
 ):
     existing_user = (
         db.query(User)
-        .filter(User.username == username)
+        .filter(User.username ==data.username)
         .first()
     )
 
@@ -40,11 +40,11 @@ def register(
             detail="Username already exists"
         )
 
-    hashed_password = pwd_context.hash(password)
+    hashed_password = pwd_context.hash(data.password)
 
     user = User(
-        username=username,
-        email=email,
+        username=data.username,
+        email=data.email,
         password_hash=hashed_password
     )
 

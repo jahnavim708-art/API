@@ -12,3 +12,4 @@ class User(Base):
     email: Mapped[str] = mapped_column(String)
     password_hash: Mapped[str] = mapped_column(String)
     #role: Mapped[str] = mapped_column(String)
+    api_key: Mapped[str] = mapped_column(String, unique=True)
