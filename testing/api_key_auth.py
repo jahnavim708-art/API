@@ -51,8 +51,8 @@ def register(
         "api_key": api_key
     }
 
-@app.get("/")
-def home(
+@app.get("/login")
+def login(
     api_key: str = Depends(api_key_header),
     db: Session = Depends(get_db)
 ):
